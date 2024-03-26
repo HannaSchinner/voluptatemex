@@ -1,0 +1,55 @@
+{
+    "$schema": "https://turbo.build/schema.json",
+    "pipeline": {
+        "lint": {},
+        "build": {
+            "dependsOn": [
+                "^build"
+            ],
+            "outputs": [
+                "dist/cjs/**",
+                "dist/types/**"
+            ]
+        },
+        "build:esm": {
+            "dependsOn": [
+                "^build:esm"
+            ],
+            "outputs": [
+                "dist/esm/**"
+            ]
+        },
+        "test": {
+            "dependsOn": [
+                "^build",
+                "^build:esm"
+            ]
+        },
+        "integration": {
+            "dependsOn": [
+                "^build",
+                "^build:esm",
+                "^test"
+            ]
+        },
+        "e2e": {
+            "dependsOn": [
+                "^build"
+            ]
+        },
+        "dev": {
+            "cache": false,
+            "persistent": true
+        },
+        "nextjs-app#build": {
+            "dependsOn": [
+                "^build",
+                "^build:esm"
+            ],
+            "outputs": [
+                ".next/**",
+                "!.next/cache/**"
+            ]
+        }
+    }
+}
